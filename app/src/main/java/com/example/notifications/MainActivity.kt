@@ -3,7 +3,9 @@ package com.example.notifications
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
@@ -18,6 +20,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.Dispatchers.Main
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+
+        val intent = Intent(this,MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_MUTABLE)
         createNotificationChannel()
 
         val builder = NotificationCompat.Builder(this,CHANNEL_ID)
@@ -37,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             .setContentText("Notification is working")
             .setSmallIcon(R.drawable.baseline_insert_emoticon_24)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
             .build()
 
         val btn = findViewById<Button>(R.id.button)
